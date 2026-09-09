@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Grow Media — GrowBack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,340;0,460;0,560;1,460&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  #cartCount {
+    display:none; align-items:center; justify-content:center;
+    background:var(--clay); color:var(--bg); font-size:.72rem;
+    width:18px; height:18px; border-radius:50%; margin-left:6px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-nav">
+    <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+    <button class="nav-toggle">Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Mission</a></li>
+      <li><a href="program.html">Program</a></li>
+      <li><a href="portal.html">Grower Portal</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="partners.html">Partners</a></li>
+    </ul>
+    <div id="google_translate_element" class="gtranslate"></div>
+    <a href="portal.html#signup" class="nav-cta">Join as a grower</a>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <div class="eyebrow">Direct sales — no agreement required</div>
+    <h1 class="max-measure">Grow media for your own kitchen garden.</h1>
+    <p class="lede max-measure">Not joining the buyback program? You can still buy grow bags, buckets, containers, and starter spawn directly, for personal use. All prices are placeholders pending final costing.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<section style="margin-top:20px;">
+  <div class="container two-col">
+    <div>
+      <h2>Prefer the community program instead?</h2>
+      <p>If you're growing to sell rather than for your own kitchen, the grower program gives you free spawn and a guaranteed buyer for what you harvest.</p>
+      <a href="program.html" class="btn btn-outline">See program terms</a>
+    </div>
+    <div>
+      <h2>Buying in bulk?</h2>
+      <p>Schools, community groups, and retailers looking for larger orders of grow media or spawn can reach out directly.</p>
+      <a href="partners.html" class="btn btn-moss">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="cart-overlay"></div>
+<div class="cart-drawer">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h3 style="margin:0;">Your cart</h3>
+    <button class="cart-close" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink-soft);">&times;</button>
+  </div>
+  <div id="cartItems"></div>
+  <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--line-dark);">
+    <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:1.15rem;margin-bottom:16px;">
+      <span>Total</span><span id="cartTotal">Rs 0</span>
+    </div>
+    <button class="btn btn-primary btn-block" id="checkoutBtn">Checkout</button>
+    <p style="font-size:.8rem;color:var(--ink-soft);margin-top:10px;">Demo checkout — payment integration to be added at launch.</p>
+  </div>
+</div>
+<button class="cart-fab">Cart <span id="cartCount">0</span></button>
+
+<footer class="site">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>GrowBack</h4>
+        <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
+      </div>
+      <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
+      <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>Ace Dynamics Trading</li><li>hello@growback.lk</li><li>+94 00 000 0000</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GrowBack — an Ace Dynamics Trading community initiative.</span>
+      <span>Placeholder figures throughout this platform pending program launch.</span>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'si,ta,en,hi,ar,zh-CN,fr,de,es,ja,ko,ru,pt,it,nl,th,vi,ur,bn,ms,tl,pl,tr,fa,he,el,sv,uk,ro,id',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="js/app.js"></script>
+<script>
+  const PRODUCTS = [
+    { sku: 'bag-5', name: 'Poly grow bags (pack of 5)', price: 450, icon: 'bag' },
+    { sku: 'bucket-1', name: 'Grow bucket (5–10L, pre-drilled)', price: 950, icon: 'bucket' },
+    { sku: 'container-1', name: 'Rigid grow container', price: 1650, icon: 'container' },
+    { sku: 'spawn-1', name: 'Oyster mushroom spawn (1kg)', price: 550, icon: 'spawn' },
+  ];
+
+  const ICONS = {
+    bag: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M18 20 L42 20 L46 52 L14 52 Z" fill="none" stroke="#241D15" stroke-width="1.6"/><path d="M23 20 C23 12 37 12 37 20" fill="none" stroke="#241D15" stroke-width="1.6"/></svg>',
+    bucket: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M16 22 L44 22 L40 50 L20 50 Z" fill="none" stroke="#241D15" stroke-width="1.6"/><path d="M20 22 C20 14 40 14 40 22" fill="none" stroke="#241D15" stroke-width="1.6"/><line x1="14" y1="22" x2="46" y2="22" stroke="#241D15" stroke-width="1.6"/></svg>',
+    container: '<svg viewBox="0 0 60 60" width="72" height="72"><rect x="14" y="20" width="32" height="30" fill="none" stroke="#241D15" stroke-width="1.6"/><rect x="18" y="14" width="24" height="8" fill="none" stroke="#241D15" stroke-width="1.6"/></svg>',
+    spawn: '<svg viewBox="0 0 60 60" width="72" height="72"><ellipse cx="30" cy="24" rx="15" ry="9" fill="none" stroke="#241D15" stroke-width="1.6"/><line x1="30" y1="32" x2="30" y2="46" stroke="#241D15" stroke-width="1.6"/><line x1="22" y1="46" x2="38" y2="46" stroke="#241D15" stroke-width="1.6"/></svg>',
+  };
+
+  function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="product-card">
+        <div class="product-media">${ICONS[p.icon]}</div>
+        <div class="product-body">
+          <h3 style="margin-bottom:2px;">${p.name}</h3>
+          <div class="product-price">Rs ${p.price.toLocaleString()}</div>
+          <div class="qty-row">
+            <button type="button" data-action="dec" data-sku="${p.sku}">−</button>
+            <input type="number" id="qty-${p.sku}" value="1" min="1">
+            <button type="button" data-action="inc" data-sku="${p.sku}">+</button>
+          </div>
+          <button class="btn btn-primary btn-block" data-add="${p.sku}">Add to cart</button>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById('qty-' + btn.dataset.sku);
+        let v = parseInt(input.value, 10) || 1;
+        v = btn.dataset.action === 'inc' ? v + 1 : Math.max(1, v - 1);
+        input.value = v;
+      });
+    });
+    grid.querySelectorAll('[data-add]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = PRODUCTS.find(x => x.sku === btn.dataset.add);
+        const qty = parseInt(document.getElementById('qty-' + p.sku).value, 10) || 1;
+        addToCart({ sku: p.sku, name: p.name, price: p.price, qty });
+      });
+    });
+  }
+  renderProducts();
+
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    if (getCart().length === 0) { showToast('Your cart is empty'); return; }
+    showToast('Demo checkout complete — thank you!');
+    saveCart([]);
+    renderCart();
+    setTimeout(() => toggleCart(false), 900);
+  });
+</script>
+</body>
+</html>

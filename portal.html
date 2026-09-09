@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grower Portal — GrowBack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,340;0,460;0,560;1,460&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+  .tabs { display:flex; gap:6px; border-bottom:1px solid var(--line-dark); margin-bottom:36px; flex-wrap:wrap; }
+  .tab-btn {
+    padding:12px 20px; background:none; border:none; cursor:pointer;
+    font-family:var(--font-body); font-size:.95rem; color:var(--ink-soft);
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+  }
+  .tab-btn.active { color:var(--ink); border-color:var(--clay); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+  .qr-box {
+    background:var(--paper-card); border:1px solid var(--line-dark);
+    padding:24px; text-align:center; display:inline-block;
+  }
+  .qr-box #qrCanvas, .qr-box img { margin:0 auto; }
+  .scan-frame {
+    max-width:420px; border:1px solid var(--line-dark); background:#000;
+    aspect-ratio:1; overflow:hidden;
+  }
+  #qrReader { width:100%; }
+  .event-row { display:flex; gap:12px; align-items:baseline; padding:10px 0; border-top:1px solid var(--line); font-size:.92rem; flex-wrap:wrap; }
+  .event-type { font-family:var(--font-display); color:var(--clay); min-width:130px; }
+  .stat-mini { display:flex; gap:22px; flex-wrap:wrap; margin:18px 0 30px; }
+  .stat-mini div { text-align:left; }
+  .stat-mini .n { font-family:var(--font-display); font-size:1.5rem; color:var(--clay); display:block; }
+  .stat-mini .l { font-size:.82rem; color:var(--ink-soft); }
+  details.guide { border-top:1px solid var(--line); padding:14px 0; }
+  details.guide summary { cursor:pointer; font-family:var(--font-display); font-size:1.05rem; }
+  details.guide p { color:var(--ink-soft); margin-top:10px; font-size:.94rem; }
+  .unit-tag { font-family:monospace; background:var(--bg-alt); padding:1px 7px; border-radius:3px; font-size:.82rem; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-nav">
+    <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+    <button class="nav-toggle">Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Mission</a></li>
+      <li><a href="program.html">Program</a></li>
+      <li><a href="portal.html" class="active">Grower Portal</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="partners.html">Partners</a></li>
+    </ul>
+    <div id="google_translate_element" class="gtranslate"></div>
+    <a href="portal.html#signup" class="nav-cta">Join as a grower</a>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <div class="eyebrow">Grower portal</div>
+    <h1 class="max-measure">Register, get a QR code, and let the system track every spawn.</h1>
+    <p class="lede max-measure">Every grower gets a QR code at sign-up, and every spawn packet or media unit issued gets its own traceable ID. Field officers scan the grower's code at distribution and collection points; growers get growing guidance and a place to log problems, all from the same record. Demo data lives in your browser for this preview.</p>
+  </div>
+</section>
+
+<div class="container" id="signup">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="register">Register as a grower</button>
+    <button class="tab-btn" data-tab="scan">Scan / Check-in</button>
+    <button class="tab-btn" data-tab="guide">Growing Guide</button>
+    <button class="tab-btn" data-tab="dashboard">My dashboard</button>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="tab-panel active" id="tab-register">
+    <div class="two-col">
+      <div>
+        <h2>1. Your details</h2>
+        <form id="regForm">
+          <div class="field-row">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input type="text" id="fullName" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone number</label>
+              <input type="tel" id="phone" required>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="district">District</label>
+              <select id="district" required>
+                <option value="">Select district</option>
+                <option>Colombo</option><option>Gampaha</option><option>Kalutara</option>
+                <option>Kandy</option><option>Matale</option><option>Nuwara Eliya</option>
+                <option>Galle</option><option>Matara</option><option>Hambantota</option>
+                <option>Jaffna</option><option>Kilinochchi</option><option>Mannar</option>
+                <option>Vavuniya</option><option>Mullaitivu</option><option>Batticaloa</option>
+                <option>Ampara</option><option>Trincomalee</option><option>Kurunegala</option>
+                <option>Puttalam</option><option>Anuradhapura</option><option>Polonnaruwa</option>
+                <option>Badulla</option><option>Moneragala</option><option>Ratnapura</option>
+                <option>Kegalle</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="address">GN division / address</label>
+              <input type="text" id="address" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="tier">Choose your tier</label>
+            <select id="tier">
+              <option value="A">Tier A — Spawn only (free, no deposit)</option>
+              <option value="B">Tier B — Spawn + grow media kit (refundable deposit)</option>
+            </select>
+          </div>
+          <div class="field" id="mediaField" style="display:none;">
+            <label for="mediaType">Grow media needed</label>
+            <select id="mediaType">
+              <option value="bag">Poly grow bag</option>
+              <option value="bucket">Bucket (5–10L)</option>
+              <option value="container">Rigid container</option>
+            </select>
+          </div>
+
+          <h2 style="margin-top:36px;">2. Read &amp; sign the agreement</h2>
+          <div class="agreement-box" style="margin-bottom:18px;">
+            <h4>1. Exclusivity of sale</h4>
+            <p>I agree to sell 100% of the harvest grown from GrowBack spawn back to GrowBack at the published buyback price. I will not sell any part of this harvest to any other buyer.</p>
+            <h4>2. Grow media</h4>
+            <p>If I receive grow media under Tier B, I understand it remains GrowBack property until my deposit is returned, and I will care for it reasonably between cycles.</p>
+            <h4>3. Quality standard</h4>
+            <p>I understand harvest is graded at collection, and contaminated or undersized produce may be rejected or paid at a reduced rate.</p>
+            <h4>4. Deposit</h4>
+            <p>I understand my deposit (if any) is returned after the agreed number of buyback cycles, or on return of the media in acceptable condition.</p>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="agreeBox" required>
+            <label for="agreeBox">I have read and agree to the terms above, and confirm the details I've entered are accurate.</label>
+          </div>
+          <div class="field" style="margin-top:16px;">
+            <label for="signName">Type your full name to sign</label>
+            <input type="text" id="signName" placeholder="Signature">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Sign &amp; register</button>
+        </form>
+      </div>
+      <div>
+        <div class="card" id="afterRegisterCard">
+          <h3>What happens next</h3>
+          <ul class="tier-list">
+            <li>You'll get a grower ID and a personal QR code immediately.</li>
+            <li>Save or screenshot the QR code — bring it to spawn distribution and buyback collection.</li>
+            <li>Field officers scan it to log every step, including a unique ID for each spawn packet or media unit you receive.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCAN / CHECK-IN -->
+  <div class="tab-panel" id="tab-scan">
+    <div class="two-col">
+      <div>
+        <h2>Scan a grower's QR code</h2>
+        <p style="color:var(--ink-soft);">For field officers at a distribution or collection point. Point the camera at the grower's QR code to pull up their record.</p>
+        <div class="scan-frame">
+          <div id="qrReader"></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" id="startScanBtn">Start camera</button>
+          <button class="btn btn-outline" id="stopScanBtn" style="display:none;">Stop camera</button>
+        </div>
+        <div class="field" style="margin-top:22px;max-width:320px;">
+          <label for="manualId">Or enter grower ID manually</label>
+          <input type="text" id="manualId" placeholder="e.g. GR-1001">
+          <button class="btn btn-outline" id="manualLookupBtn" style="margin-top:10px;">Look up</button>
+        </div>
+      </div>
+      <div>
+        <h2>Community growth so far</h2>
+        <div class="stat-mini" id="communityStats"></div>
+        <div id="connStatus" class="sync-note" style="margin-bottom:18px;"></div>
+        <div id="scanResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROWING GUIDE -->
+  <div class="tab-panel" id="tab-guide">
+    <div class="two-col">
+      <div>
+        <h2>Growing guide</h2>
+        <p style="color:var(--ink-soft);">General guidance for oyster mushroom cultivation on program spawn. Crop-specific and export-grade guides will expand here as the program grows into other crops and media.</p>
+        <details class="guide" open>
+          <summary>Spawning &amp; incubation (Days 1–14)</summary>
+          <p>Keep the bag or bucket in a dark, well-ventilated space away from direct sun. Room temperature (24–28°C) is ideal. You'll see white mycelium spreading through the substrate — this is normal and should fully colonise within 2 weeks.</p>
+        </details>
+        <details class="guide">
+          <summary>Fruiting (Days 14–21)</summary>
+          <p>Once colonised, move to a slightly humid, indirectly lit spot. Mist lightly twice a day. Small pins will appear within a few days — resist the urge to open the bag too early.</p>
+        </details>
+        <details class="guide">
+          <summary>Harvesting</summary>
+          <p>Harvest when caps flatten but before edges curl upward. Twist gently at the base rather than cutting, to avoid leaving stubs that can rot. Expect 2–3 flushes per bag, roughly a week apart.</p>
+        </details>
+        <details class="guide">
+          <summary>Common problems</summary>
+          <p><strong>Green or black patches:</strong> likely contamination — isolate the bag away from others and report it so we can track contamination rates. <strong>No pins forming:</strong> usually too little humidity or light — increase misting and indirect light. <strong>Slow growth:</strong> check the space isn't too cold.</p>
+        </details>
+      </div>
+      <div>
+        <h2>Report an issue</h2>
+        <p style="color:var(--ink-soft);">Contamination, pests, or anything going wrong with your batch — log it here so it's tracked against your record.</p>
+        <div class="field">
+          <label for="issueGrowerId">Your grower ID</label>
+          <input type="text" id="issueGrowerId" placeholder="e.g. GR-1001">
+        </div>
+        <div class="field">
+          <label for="issueDesc">What's happening?</label>
+          <textarea id="issueDesc" rows="4" placeholder="e.g. Green mould on one side of the bag"></textarea>
+        </div>
+        <button class="btn btn-primary" id="reportIssueBtn">Log issue</button>
+        <div id="issueConfirm" style="margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tab-panel" id="tab-dashboard">
+    <div class="field" style="max-width:340px;">
+      <label for="lookupId">Enter your grower ID</label>
+      <input type="text" id="lookupId" placeholder="e.g. GR-1001">
+      <button class="btn btn-outline" id="lookupBtn" style="margin-top:10px;">View dashboard</button>
+    </div>
+    <div id="dashOutput" style="margin-top:36px;"></div>
+  </div>
+</div>
+
+<section></section>
+
+<footer class="site">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>GrowBack</h4>
+        <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
+      </div>
+      <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
+      <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>Ace Dynamics Trading</li><li>hello@growback.lk</li><li>+94 00 000 0000</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GrowBack — an Ace Dynamics Trading community initiative.</span>
+      <span>Placeholder figures throughout this platform pending program launch.</span>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'si,ta,en,hi,ar,zh-CN,fr,de,es,ja,ko,ru,pt,it,nl,th,vi,ur,bn,ms,tl,pl,tr,fa,he,el,sv,uk,ro,id',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="js/app.js"></script>
+<script>
+  // ---------- Tabs ----------
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'scan') renderCommunityStats();
+    });
+  });
+
+  // ---------- Registration ----------
+  const tierSelect = document.getElementById('tier');
+  const mediaField = document.getElementById('mediaField');
+  tierSelect.addEventListener('change', () => {
+    mediaField.style.display = tierSelect.value === 'B' ? 'block' : 'none';
+  });
+
+  document.getElementById('regForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const signName = document.getElementById('signName').value.trim();
+    const fullName = document.getElementById('fullName').value.trim();
+    if (!document.getElementById('agreeBox').checked) {
+      showToast('Please agree to the terms to continue');
+      return;
+    }
+    if (!signName || signName.toLowerCase() !== fullName.toLowerCase()) {
+      showToast('Type your full name exactly as entered above to sign');
+      return;
+    }
+    const record = {
+      name: fullName,
+      phone: document.getElementById('phone').value.trim(),
+      district: document.getElementById('district').value,
+      address: document.getElementById('address').value.trim(),
+      tier: tierSelect.value,
+      mediaType: tierSelect.value === 'B' ? document.getElementById('mediaType').value : null,
+    };
+    const saved = addGrower(record);
+    document.getElementById('regForm').reset();
+    mediaField.style.display = 'none';
+    showToast('Registered — your grower ID is ' + saved.id);
+
+    document.getElementById('afterRegisterCard').innerHTML = `
+      <h3>You're registered</h3>
+      <p style="color:var(--ink-soft);">Grower ID: <strong>${saved.id}</strong></p>
+      <div class="qr-box"><div id="newGrowerQr"></div></div>
+      <p style="font-size:.85rem;color:var(--ink-soft);margin-top:14px;">Screenshot this code or ask a field officer to print it. It's scanned at every distribution and collection point.</p>
+    `;
+    renderQr('newGrowerQr', saved.id);
+  });
+
+  // ---------- Dashboard ----------
+  document.getElementById('lookupBtn').addEventListener('click', () => {
+    renderDashboard(document.getElementById('lookupId').value.trim());
+  });
+
+  const EVENT_LABELS = {
+    registered: 'Registered',
+    spawn_issued: 'Spawn issued',
+    media_issued: 'Media issued',
+    buyback: 'Buyback',
+    deposit_returned: 'Deposit returned',
+    issue_reported: 'Issue reported',
+  };
+
+  function renderDashboard(id) {
+    const out = document.getElementById('dashOutput');
+    const g = findGrower(id);
+    if (!g) {
+      out.innerHTML = '<p style="color:var(--ink-soft);">No grower found with that ID. Double-check the ID from your registration confirmation.</p>';
+      return;
+    }
+    const totalKg = totalKgFor(g);
+    const events = [...g.events].reverse();
+    out.innerHTML = `
+      <div class="dash-grid">
+        <div class="dash-side">
+          <div class="card">
+            <h4>${g.name}</h4>
+            <p style="font-size:.88rem;color:var(--ink-soft);margin-bottom:6px;">${g.id}</p>
+            <span class="badge ${g.tier === 'A' ? 'free' : 'deposit'}">${g.tier === 'A' ? 'Tier A — Spawn only' : 'Tier B — Spawn + media'}</span>
+          </div>
+          <div class="card">
+            <h4>Media</h4>
+            <p style="font-size:.92rem;color:var(--ink-soft);">${g.mediaType ? g.mediaType : 'None (spawn only)'}</p>
+            ${g.tier === 'B' ? `<span class="badge ${g.depositReturned ? 'returned' : 'pending'}">${g.depositReturned ? 'Deposit returned' : 'Deposit held'}</span>` : ''}
+          </div>
+          <div class="card">
+            <h4>Total sold back</h4>
+            <p style="font-size:1.4rem;font-family:var(--font-display);color:var(--clay);margin:0;">${totalKg} kg</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <h4>Your QR code</h4>
+            <div id="dashQr" style="display:flex;justify-content:center;"></div>
+          </div>
+        </div>
+        <div>
+          <h3>Activity log</h3>
+          ${events.length ? events.map(e => `
+            <div class="event-row">
+              <span class="event-type">${EVENT_LABELS[e.type] || e.type}</span>
+              <span style="color:var(--ink-soft);">${new Date(e.date).toLocaleDateString()}</span>
+              ${e.unitId ? `<span class="unit-tag">${e.unitId}</span>` : ''}
+              ${e.kg ? `<span>${e.kg} kg ${e.paid ? `<span class="badge returned">paid via ${e.paymentMethod}</span>` : '<span class="badge pending">payment pending</span>'}</span>` : ''}
+              ${e.notes ? `<span style="color:var(--ink-soft);">${e.notes}</span>` : ''}
+              ${e.description ? `<span style="color:var(--ink-soft);">${e.description} ${e.status === 'open' ? '<span class=\"badge pending\">open</span>' : '<span class=\"badge returned\">resolved</span>'}</span>` : ''}
+            </div>
+          `).join('') : '<p style="color:var(--ink-soft);">No activity logged yet.</p>'}
+        </div>
+      </div>
+    `;
+    renderQr('dashQr', g.id);
+  }
+
+  // ---------- Growing guide / issue reporting ----------
+  document.getElementById('reportIssueBtn').addEventListener('click', () => {
+    const id = document.getElementById('issueGrowerId').value.trim().toUpperCase();
+    const desc = document.getElementById('issueDesc').value.trim();
+    const confirmEl = document.getElementById('issueConfirm');
+    if (!id || !findGrower(id)) {
+      confirmEl.innerHTML = '<p style="color:var(--clay-deep);">Grower ID not found — check it and try again.</p>';
+      return;
+    }
+    if (!desc) { showToast('Describe the issue first'); return; }
+    logIssue(id, desc);
+    document.getElementById('issueDesc').value = '';
+    confirmEl.innerHTML = '<p style="color:var(--moss);">Logged. A field officer will follow up, and this now shows on your dashboard.</p>';
+    showToast('Issue logged for ' + id);
+  });
+
+  // ---------- Scan / check-in ----------
+  let html5QrCode;
+  const scanResult = document.getElementById('scanResult');
+
+  function renderCommunityStats() {
+    const s = getCommunityStats();
+    document.getElementById('communityStats').innerHTML = `
+      <div><span class="n">${s.totalGrowers}</span><span class="l">Growers registered</span></div>
+      <div><span class="n">${s.tierA}</span><span class="l">Tier A</span></div>
+      <div><span class="n">${s.tierB}</span><span class="l">Tier B</span></div>
+      <div><span class="n">${s.spawnUnitsIssued}</span><span class="l">Spawn units issued</span></div>
+      <div><span class="n">${s.totalKg}</span><span class="l">Kg bought back</span></div>
+      <div><span class="n">${s.openIssues}</span><span class="l">Open issues</span></div>
+    `;
+    renderConnStatus();
+  }
+  function renderConnStatus() {
+    const el = document.getElementById('connStatus');
+    if (!el) return;
+    const online = navigator.onLine;
+    el.textContent = (online ? '● Online' : '● Offline') + ' — scans save to this device instantly either way; ' +
+      getPendingSyncCount() + ' event(s) logged this session, ready to sync once a server is connected.';
+  }
+  window.addEventListener('online', renderConnStatus);
+  window.addEventListener('offline', renderConnStatus);
+  renderCommunityStats();
+
+  function showScanResult(id) {
+    const g = findGrower(id);
+    if (!g) {
+      scanResult.innerHTML = `<p style="color:var(--clay-deep);">No grower found for "${id}".</p>`;
+      return;
+    }
+    const openIssues = g.events.filter(e => e.type === 'issue_reported' && e.status === 'open');
+    scanResult.innerHTML = `
+      <div class="card">
+        <h3>${g.name} <span style="font-size:.8rem;color:var(--ink-soft);font-weight:400;">${g.id}</span></h3>
+        <span class="badge ${g.tier === 'A' ? 'free' : 'deposit'}">${g.tier === 'A' ? 'Tier A' : 'Tier B'}</span>
+        ${openIssues.length ? `<p style="color:var(--clay-deep);font-size:.88rem;margin-top:10px;">${openIssues.length} open issue(s): ${openIssues.map(i => i.description).join('; ')}</p>` : ''}
+        <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-outline" data-act="spawn_issued">Log spawn issued (new unit ID)</button>
+          ${g.tier === 'B' ? '<button class="btn btn-outline" data-act="media_issued">Log media issued (new unit ID)</button>' : ''}
+          <div class="field-row" style="margin-bottom:0;">
+            <input type="number" id="scanKg" placeholder="Kg" min="0" step="0.1">
+            <input type="text" id="scanNotes" placeholder="Grade / notes">
+          </div>
+          <button class="btn btn-moss" data-act="buyback">Log buyback</button>
+          ${g.tier === 'B' && !g.depositReturned ? '<button class="btn btn-primary" data-act="deposit_returned">Mark deposit returned</button>' : ''}
+        </div>
+      </div>
+    `;
+    scanResult.querySelectorAll('[data-act]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const act = btn.dataset.act;
+        if (act === 'buyback') {
+          const kg = document.getElementById('scanKg').value;
+          if (!kg || Number(kg) <= 0) { showToast('Enter a weight first'); return; }
+          logEvent(g.id, 'buyback', { kg: Number(kg), notes: document.getElementById('scanNotes').value });
+          showToast('Buyback logged for ' + g.name);
+        } else if (act === 'spawn_issued' || act === 'media_issued') {
+          const unitId = logIssuance(g.id, act === 'spawn_issued' ? 'spawn' : 'media');
+          showToast(EVENT_LABELS[act] + ' — unit ' + unitId);
+        } else {
+          logEvent(g.id, act);
+          showToast(EVENT_LABELS[act] + ' logged for ' + g.name);
+        }
+        renderCommunityStats();
+        showScanResult(g.id);
+      });
+    });
+  }
+
+  document.getElementById('manualLookupBtn').addEventListener('click', () => {
+    showScanResult(document.getElementById('manualId').value.trim());
+  });
+
+  document.getElementById('startScanBtn').addEventListener('click', () => {
+    if (typeof Html5Qrcode === 'undefined') {
+      showToast('Camera scanner failed to load — use manual ID entry below');
+      return;
+    }
+    html5QrCode = new Html5Qrcode('qrReader');
+    Html5Qrcode.getCameras().then(cameras => {
+      const camId = cameras && cameras.length ? cameras[cameras.length - 1].id : null;
+      if (!camId) { showToast('No camera found — use manual ID entry'); return; }
+      html5QrCode.start(
+        camId,
+        { fps: 10, qrbox: 220 },
+        (decodedText) => {
+          const id = idFromQrPayload(decodedText) || decodedText;
+          showScanResult(id);
+          html5QrCode.stop();
+          document.getElementById('startScanBtn').style.display = 'inline-flex';
+          document.getElementById('stopScanBtn').style.display = 'none';
+        },
+        () => {}
+      );
+      document.getElementById('startScanBtn').style.display = 'none';
+      document.getElementById('stopScanBtn').style.display = 'inline-flex';
+    }).catch(() => showToast('Camera access denied — use manual ID entry below'));
+  });
+
+  document.getElementById('stopScanBtn').addEventListener('click', () => {
+    if (html5QrCode) html5QrCode.stop();
+    document.getElementById('startScanBtn').style.display = 'inline-flex';
+    document.getElementById('stopScanBtn').style.display = 'none';
+  });
+</script>
+</body>
+</html>
