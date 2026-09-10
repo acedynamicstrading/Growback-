@@ -2,23 +2,27 @@
    Design tokens
    Subject: community mushroom cultivation program — spawn
    distribution, buyback, grow media, CSR retail partnership.
-   Palette drawn from the mushroom itself: bark, cap tan,
-   spore print, parchment ledger paper, clay pot, moss.
+   Dark variant: mushrooms grow in the dark, so the page reads
+   as a growing room — near-black soil/bark surfaces, rising to
+   a near-pitch "root cellar" at the footer. Cap tan, terracotta,
+   the real Avero green, and spore-lilac are all brightened to
+   hold contrast against the dark surfaces.
    ========================================================= */
 :root {
-  --bg:        #F1EAD9;   /* parchment / ledger paper */
-  --bg-alt:    #E7DBBE;   /* deeper paper for alt sections */
-  --bg-dark:   #241D15;   /* bark brown, near-black */
-  --ink:       #241D15;   /* bark brown, primary text */
-  --ink-soft:  #5B5142;   /* muted bark for secondary text */
-  --line:      #C7B896;   /* hairline rule on paper */
-  --line-dark: #4A4030;   /* hairline rule on bark */
-  --tan:       #C9A66B;   /* mushroom cap tan */
-  --clay:      #A85736;   /* terracotta pot — primary CTA */
-  --clay-deep: #8A4529;
-  --moss:      #4E5B3D;   /* moss green — growth / CSR */
-  --spore:     #7C6E93;   /* spore-print lilac-grey — tier B / info */
-  --paper-card:#FBF7EC;
+  --bg:        #17120D;   /* growing room — dark soil/bark */
+  --bg-alt:    #1F1811;   /* slightly raised dark section */
+  --bg-dark:   #0C0906;   /* root cellar — near-pitch, footer */
+  --ink:       #EDE4D2;   /* parchment ink, now the text color */
+  --ink-soft:  #B4A88E;   /* muted parchment for secondary text */
+  --line:      #372D20;   /* hairline rule on dark surfaces */
+  --line-dark: #57492F;   /* stronger hairline / borders */
+  --tan:       #D9B77E;   /* mushroom cap tan, brightened */
+  --brand:      #6B9328;  /* Avero green — sampled from the flat icon badges on the real packaging */
+  --brand-deep: #587A1E;
+  --rust:      #C97B52;   /* terracotta, brightened */
+  --rust-deep: #A9603C;
+  --spore:     #A79BC4;   /* spore-print lilac-grey, brightened */
+  --paper-card:#251D15;   /* dark card surface, one step up from bg */
 
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-body: "Public Sans", "Inter", -apple-system, sans-serif;
@@ -90,7 +94,11 @@ header.site {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  flex-wrap: wrap;
 }
+.brand-lockup { display: flex; align-items: center; gap: 12px; }
+.brand-lockup .divider { width: 1px; height: 20px; background: var(--line-dark); display: inline-block; }
+.brand-lockup img { height: 20px; width: auto; display: block; }
 .wordmark {
   font-family: var(--font-display);
   font-size: 1.35rem;
@@ -99,7 +107,7 @@ header.site {
   color: var(--ink);
   white-space: nowrap;
 }
-.wordmark span { color: var(--clay); }
+.wordmark span { color: var(--brand); }
 .nav-links {
   display: flex;
   gap: 28px;
@@ -117,8 +125,8 @@ header.site {
   transition: color .15s, border-color .15s;
 }
 .nav-links a:hover, .nav-links a.active {
-  color: var(--clay);
-  border-color: var(--clay);
+  color: var(--brand);
+  border-color: var(--brand);
 }
 .nav-cta {
   font-size: 0.9rem;
@@ -129,7 +137,7 @@ header.site {
   border-radius: var(--radius);
   white-space: nowrap;
 }
-.nav-cta:hover { background: var(--clay); }
+.nav-cta:hover { background: var(--brand); }
 .nav-toggle { display: none; }
 
 /* ---------------- Google Translate widget ---------------- */
@@ -183,12 +191,12 @@ body { top: 0 !important; }
   font-family: var(--font-body);
   transition: background .15s, color .15s, border-color .15s;
 }
-.btn-primary { background: var(--clay); color: var(--bg); }
-.btn-primary:hover { background: var(--clay-deep); }
+.btn-primary { background: var(--brand); color: var(--bg); }
+.btn-primary:hover { background: var(--brand-deep); }
 .btn-outline { border-color: var(--ink); color: var(--ink); background: transparent; }
 .btn-outline:hover { background: var(--ink); color: var(--bg); }
-.btn-moss { background: var(--moss); color: var(--bg); }
-.btn-moss:hover { background: #3c4630; }
+.btn-moss { background: var(--rust); color: var(--bg); }
+.btn-moss:hover { background: var(--rust-deep); }
 .btn-block { width: 100%; justify-content: center; }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
 
@@ -207,7 +215,7 @@ body { top: 0 !important; }
 }
 .eyebrow {
   font-size: 0.92rem;
-  color: var(--moss);
+  color: var(--rust);
   margin-bottom: 14px;
   font-style: italic;
   font-family: var(--font-display);
@@ -229,7 +237,7 @@ body { top: 0 !important; }
 .ledger-num {
   font-family: var(--font-display);
   font-size: 2.1rem;
-  color: var(--clay);
+  color: var(--brand);
   display: block;
 }
 .ledger-label { color: var(--ink-soft); font-size: 0.92rem; }
@@ -291,7 +299,7 @@ body { top: 0 !important; }
 .step-num {
   font-family: var(--font-display);
   font-style: italic;
-  color: var(--clay);
+  color: var(--brand);
   font-size: 1.1rem;
   display: block;
   margin-bottom: 10px;
@@ -329,7 +337,7 @@ body { top: 0 !important; }
   color: var(--ink);
 }
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: 2px solid var(--clay);
+  outline: 2px solid var(--brand);
   outline-offset: 1px;
 }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -376,10 +384,10 @@ table.ledger th {
   border-radius: var(--radius);
   font-size: 0.78rem;
 }
-.badge.free { background: #E4E9DB; color: var(--moss); }
-.badge.deposit { background: #E6E1EE; color: var(--spore); }
-.badge.pending { background: #F1E5D3; color: var(--clay-deep); }
-.badge.returned { background: #E4E9DB; color: var(--moss); }
+.badge.free { background: rgba(95,160,147,.16); color: var(--brand); }
+.badge.deposit { background: rgba(167,155,196,.16); color: var(--spore); }
+.badge.pending { background: rgba(201,123,82,.16); color: var(--rust); }
+.badge.returned { background: rgba(95,160,147,.16); color: var(--brand); }
 
 /* ---------------- Shop ---------------- */
 .product-grid {
@@ -398,7 +406,7 @@ table.ledger th {
   border-bottom: 1px solid var(--line);
 }
 .product-body { padding: 20px; }
-.product-price { font-family: var(--font-display); font-size: 1.3rem; color: var(--clay); margin: 6px 0 14px; }
+.product-price { font-family: var(--font-display); font-size: 1.3rem; color: var(--brand); margin: 6px 0 14px; }
 .qty-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .qty-row button {
   width: 30px; height: 30px; border: 1px solid var(--line-dark);
@@ -415,7 +423,7 @@ table.ledger th {
 }
 .cart-drawer.open { transform: translateX(0); }
 .cart-overlay {
-  position: fixed; inset: 0; background: rgba(36,29,21,.4); z-index: 55;
+  position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 55;
   opacity: 0; pointer-events: none; transition: opacity .25s;
 }
 .cart-overlay.open { opacity: 1; pointer-events: auto; }
@@ -494,6 +502,6 @@ footer.site a:hover { color: var(--tan); }
 
 /* ---------------- Shared: activity log rows, unit tags, sync note ---------------- */
 .event-row { display:flex; gap:12px; align-items:baseline; padding:10px 0; border-top:1px solid var(--line); font-size:.92rem; flex-wrap:wrap; }
-.event-type { font-family:var(--font-display); color:var(--clay); min-width:130px; }
+.event-type { font-family:var(--font-display); color:var(--brand); min-width:130px; }
 .unit-tag { font-family:monospace; background:var(--bg-alt); padding:1px 7px; border-radius:3px; font-size:.82rem; }
 .sync-note { font-size:.82rem; color:var(--ink-soft); }
