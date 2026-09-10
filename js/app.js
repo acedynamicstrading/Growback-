@@ -243,7 +243,7 @@ function renderCart() {
         <div class="cart-item">
           <span>${c.name} × ${c.qty}</span>
           <span>Rs ${(c.qty * c.price).toLocaleString()}
-            <a href="#" data-sku="${c.sku}" class="cart-remove" style="margin-left:8px;color:var(--clay);">remove</a>
+            <a href="#" data-sku="${c.sku}" class="cart-remove" style="margin-left:8px;color:var(--rust);">remove</a>
           </span>
         </div>`).join('')
     : '<p style="color:var(--ink-soft);font-size:0.92rem;">Your cart is empty.</p>';
