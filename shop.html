@@ -10,7 +10,7 @@
 <style>
   #cartCount {
     display:none; align-items:center; justify-content:center;
-    background:var(--clay); color:var(--bg); font-size:.72rem;
+    background:var(--brand); color:var(--bg); font-size:.72rem;
     width:18px; height:18px; border-radius:50%; margin-left:6px;
   }
 </style>
@@ -19,7 +19,11 @@
 
 <header class="site">
   <div class="site-nav">
-    <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+    <div class="brand-lockup">
+      <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+      <span class="divider"></span>
+      <img src="img/avero-logo.png" alt="Avero">
+    </div>
     <button class="nav-toggle">Menu</button>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -83,14 +87,15 @@
     <div class="footer-grid">
       <div>
         <h4>GrowBack</h4>
+        <img src="img/avero-logo.png" alt="Avero" style="height:22px;width:auto;margin-bottom:12px;">
         <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
       </div>
       <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
       <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
-      <div><h4>Contact</h4><ul><li>Ace Dynamics Trading</li><li>hello@growback.lk</li><li>+94 00 000 0000</li></ul></div>
+      <div><h4>Contact</h4><ul><li>Avero (Pvt) Ltd</li><li>Elmo +94 77 362 2211</li><li>Rukshan +94 71 769 8609</li><li>averoexport@gmail.com</li><li>averocontactsl@gmail.com</li></ul></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 GrowBack — an Ace Dynamics Trading community initiative.</span>
+      <span>© 2026 GrowBack — an Avero community initiative.</span>
       <span>Placeholder figures throughout this platform pending program launch.</span>
     </div>
   </div>
@@ -115,10 +120,10 @@
   ];
 
   const ICONS = {
-    bag: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M18 20 L42 20 L46 52 L14 52 Z" fill="none" stroke="#241D15" stroke-width="1.6"/><path d="M23 20 C23 12 37 12 37 20" fill="none" stroke="#241D15" stroke-width="1.6"/></svg>',
-    bucket: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M16 22 L44 22 L40 50 L20 50 Z" fill="none" stroke="#241D15" stroke-width="1.6"/><path d="M20 22 C20 14 40 14 40 22" fill="none" stroke="#241D15" stroke-width="1.6"/><line x1="14" y1="22" x2="46" y2="22" stroke="#241D15" stroke-width="1.6"/></svg>',
-    container: '<svg viewBox="0 0 60 60" width="72" height="72"><rect x="14" y="20" width="32" height="30" fill="none" stroke="#241D15" stroke-width="1.6"/><rect x="18" y="14" width="24" height="8" fill="none" stroke="#241D15" stroke-width="1.6"/></svg>',
-    spawn: '<svg viewBox="0 0 60 60" width="72" height="72"><ellipse cx="30" cy="24" rx="15" ry="9" fill="none" stroke="#241D15" stroke-width="1.6"/><line x1="30" y1="32" x2="30" y2="46" stroke="#241D15" stroke-width="1.6"/><line x1="22" y1="46" x2="38" y2="46" stroke="#241D15" stroke-width="1.6"/></svg>',
+    bag: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M18 20 L42 20 L46 52 L14 52 Z" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="M23 20 C23 12 37 12 37 20" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>',
+    bucket: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M16 22 L44 22 L40 50 L20 50 Z" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="M20 22 C20 14 40 14 40 22" fill="none" stroke="var(--ink)" stroke-width="1.6"/><line x1="14" y1="22" x2="46" y2="22" stroke="var(--ink)" stroke-width="1.6"/></svg>',
+    container: '<svg viewBox="0 0 60 60" width="72" height="72"><rect x="14" y="20" width="32" height="30" fill="none" stroke="var(--ink)" stroke-width="1.6"/><rect x="18" y="14" width="24" height="8" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>',
+    spawn: '<svg viewBox="0 0 60 60" width="72" height="72"><ellipse cx="30" cy="24" rx="15" ry="9" fill="none" stroke="var(--ink)" stroke-width="1.6"/><line x1="30" y1="32" x2="30" y2="46" stroke="var(--ink)" stroke-width="1.6"/><line x1="22" y1="46" x2="38" y2="46" stroke="var(--ink)" stroke-width="1.6"/></svg>',
   };
 
   function renderProducts() {

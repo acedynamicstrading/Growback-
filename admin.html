@@ -9,13 +9,13 @@
 <link rel="stylesheet" href="css/styles.css">
 <style>
   .warn-banner {
-    background: #F1E5D3; border: 1px solid var(--clay); color: var(--clay-deep);
+    background: rgba(201,123,82,.14); border: 1px solid var(--rust); color: var(--rust);
     padding: 12px 18px; font-size: .88rem; margin-bottom: 28px;
   }
   .admin-stats { display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--line); margin-bottom:36px; }
   .admin-stats > div { flex:1; min-width:140px; padding:18px 20px; border-left:1px solid var(--line); }
   .admin-stats > div:first-child { border-left:none; }
-  .admin-stats .n { font-family:var(--font-display); font-size:1.6rem; color:var(--clay); display:block; }
+  .admin-stats .n { font-family:var(--font-display); font-size:1.6rem; color:var(--brand); display:block; }
   .admin-stats .l { font-size:.8rem; color:var(--ink-soft); }
   .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:20px; justify-content:space-between; }
   .toolbar .filters { display:flex; gap:10px; flex-wrap:wrap; }
@@ -25,7 +25,7 @@
   .grower-row td { cursor:pointer; }
   .mini-tabs { display:flex; gap:6px; margin:44px 0 20px; border-bottom:1px solid var(--line-dark); }
   .mini-tab-btn { padding:9px 16px; background:none; border:none; cursor:pointer; font-size:.9rem; color:var(--ink-soft); border-bottom:2px solid transparent; margin-bottom:-1px; }
-  .mini-tab-btn.active { color:var(--ink); border-color:var(--clay); }
+  .mini-tab-btn.active { color:var(--ink); border-color:var(--brand); }
   .mini-panel { display:none; }
   .mini-panel.active { display:block; }
   .sync-note { font-size:.82rem; color:var(--ink-soft); margin-top:6px; }
@@ -35,7 +35,11 @@
 
 <header class="site">
   <div class="site-nav">
-    <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+    <div class="brand-lockup">
+      <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+      <span class="divider"></span>
+      <img src="img/avero-logo.png" alt="Avero">
+    </div>
     <button class="nav-toggle">Menu</button>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -102,14 +106,15 @@
     <div class="footer-grid">
       <div>
         <h4>GrowBack</h4>
+        <img src="img/avero-logo.png" alt="Avero" style="height:22px;width:auto;margin-bottom:12px;">
         <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
       </div>
       <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
       <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
-      <div><h4>Contact</h4><ul><li>Ace Dynamics Trading</li><li>hello@growback.lk</li><li>+94 00 000 0000</li></ul></div>
+      <div><h4>Contact</h4><ul><li>Avero (Pvt) Ltd</li><li>Elmo +94 77 362 2211</li><li>Rukshan +94 71 769 8609</li><li>averoexport@gmail.com</li><li>averocontactsl@gmail.com</li></ul></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 GrowBack — an Ace Dynamics Trading community initiative.</span>
+      <span>© 2026 GrowBack — an Avero community initiative.</span>
       <span>Placeholder figures throughout this platform pending program launch.</span>
     </div>
   </div>

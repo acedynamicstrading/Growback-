@@ -16,7 +16,7 @@
     font-family:var(--font-body); font-size:.95rem; color:var(--ink-soft);
     border-bottom:2px solid transparent; margin-bottom:-1px;
   }
-  .tab-btn.active { color:var(--ink); border-color:var(--clay); }
+  .tab-btn.active { color:var(--ink); border-color:var(--brand); }
   .tab-panel { display:none; }
   .tab-panel.active { display:block; }
   .qr-box {
@@ -30,10 +30,10 @@
   }
   #qrReader { width:100%; }
   .event-row { display:flex; gap:12px; align-items:baseline; padding:10px 0; border-top:1px solid var(--line); font-size:.92rem; flex-wrap:wrap; }
-  .event-type { font-family:var(--font-display); color:var(--clay); min-width:130px; }
+  .event-type { font-family:var(--font-display); color:var(--brand); min-width:130px; }
   .stat-mini { display:flex; gap:22px; flex-wrap:wrap; margin:18px 0 30px; }
   .stat-mini div { text-align:left; }
-  .stat-mini .n { font-family:var(--font-display); font-size:1.5rem; color:var(--clay); display:block; }
+  .stat-mini .n { font-family:var(--font-display); font-size:1.5rem; color:var(--brand); display:block; }
   .stat-mini .l { font-size:.82rem; color:var(--ink-soft); }
   details.guide { border-top:1px solid var(--line); padding:14px 0; }
   details.guide summary { cursor:pointer; font-family:var(--font-display); font-size:1.05rem; }
@@ -45,7 +45,11 @@
 
 <header class="site">
   <div class="site-nav">
-    <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+    <div class="brand-lockup">
+      <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+      <span class="divider"></span>
+      <img src="img/avero-logo.png" alt="Avero">
+    </div>
     <button class="nav-toggle">Menu</button>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -250,14 +254,15 @@
     <div class="footer-grid">
       <div>
         <h4>GrowBack</h4>
+        <img src="img/avero-logo.png" alt="Avero" style="height:22px;width:auto;margin-bottom:12px;">
         <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
       </div>
       <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
       <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
-      <div><h4>Contact</h4><ul><li>Ace Dynamics Trading</li><li>hello@growback.lk</li><li>+94 00 000 0000</li></ul></div>
+      <div><h4>Contact</h4><ul><li>Avero (Pvt) Ltd</li><li>Elmo +94 77 362 2211</li><li>Rukshan +94 71 769 8609</li><li>averoexport@gmail.com</li><li>averocontactsl@gmail.com</li></ul></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 GrowBack — an Ace Dynamics Trading community initiative.</span>
+      <span>© 2026 GrowBack — an Avero community initiative.</span>
       <span>Placeholder figures throughout this platform pending program launch.</span>
     </div>
   </div>
@@ -364,7 +369,7 @@
           </div>
           <div class="card">
             <h4>Total sold back</h4>
-            <p style="font-size:1.4rem;font-family:var(--font-display);color:var(--clay);margin:0;">${totalKg} kg</p>
+            <p style="font-size:1.4rem;font-family:var(--font-display);color:var(--brand);margin:0;">${totalKg} kg</p>
           </div>
           <div class="card" style="text-align:center;">
             <h4>Your QR code</h4>
@@ -395,13 +400,13 @@
     const desc = document.getElementById('issueDesc').value.trim();
     const confirmEl = document.getElementById('issueConfirm');
     if (!id || !findGrower(id)) {
-      confirmEl.innerHTML = '<p style="color:var(--clay-deep);">Grower ID not found — check it and try again.</p>';
+      confirmEl.innerHTML = '<p style="color:var(--rust-deep);">Grower ID not found — check it and try again.</p>';
       return;
     }
     if (!desc) { showToast('Describe the issue first'); return; }
     logIssue(id, desc);
     document.getElementById('issueDesc').value = '';
-    confirmEl.innerHTML = '<p style="color:var(--moss);">Logged. A field officer will follow up, and this now shows on your dashboard.</p>';
+    confirmEl.innerHTML = '<p style="color:var(--brand);">Logged. A field officer will follow up, and this now shows on your dashboard.</p>';
     showToast('Issue logged for ' + id);
   });
 
@@ -435,7 +440,7 @@
   function showScanResult(id) {
     const g = findGrower(id);
     if (!g) {
-      scanResult.innerHTML = `<p style="color:var(--clay-deep);">No grower found for "${id}".</p>`;
+      scanResult.innerHTML = `<p style="color:var(--rust-deep);">No grower found for "${id}".</p>`;
       return;
     }
     const openIssues = g.events.filter(e => e.type === 'issue_reported' && e.status === 'open');
@@ -443,7 +448,7 @@
       <div class="card">
         <h3>${g.name} <span style="font-size:.8rem;color:var(--ink-soft);font-weight:400;">${g.id}</span></h3>
         <span class="badge ${g.tier === 'A' ? 'free' : 'deposit'}">${g.tier === 'A' ? 'Tier A' : 'Tier B'}</span>
-        ${openIssues.length ? `<p style="color:var(--clay-deep);font-size:.88rem;margin-top:10px;">${openIssues.length} open issue(s): ${openIssues.map(i => i.description).join('; ')}</p>` : ''}
+        ${openIssues.length ? `<p style="color:var(--rust-deep);font-size:.88rem;margin-top:10px;">${openIssues.length} open issue(s): ${openIssues.map(i => i.description).join('; ')}</p>` : ''}
         <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
           <button class="btn btn-outline" data-act="spawn_issued">Log spawn issued (new unit ID)</button>
           ${g.tier === 'B' ? '<button class="btn btn-outline" data-act="media_issued">Log media issued (new unit ID)</button>' : ''}
