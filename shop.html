@@ -29,6 +29,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">Mission</a></li>
       <li><a href="program.html">Program</a></li>
+      <li><a href="grow-guide.html">Grow Guide</a></li>
       <li><a href="portal.html">Grower Portal</a></li>
       <li><a href="shop.html" class="active">Shop</a></li>
       <li><a href="partners.html">Partners</a></li>
@@ -42,7 +43,7 @@
   <div class="container">
     <div class="eyebrow">Direct sales — no agreement required</div>
     <h1 class="max-measure">Grow media for your own kitchen garden.</h1>
-    <p class="lede max-measure">Not joining the buyback program? You can still buy grow bags, buckets, containers, and starter spawn directly, for personal use. All prices are placeholders pending final costing.</p>
+    <p class="lede max-measure">Not joining the buyback program? You can still buy grow bags, buckets, containers, starter spawn, ready-to-fruit kits, and grow tents directly, for personal use. All prices are placeholders pending final costing.</p>
   </div>
 </section>
 
@@ -113,24 +114,26 @@
 <script src="js/app.js"></script>
 <script>
   const PRODUCTS = [
+    { sku: 'spawn-1', name: 'Oyster mushroom spawn (1kg)', price: 550, img: 'img/product-spawnbags.jpg' },
     { sku: 'bag-5', name: 'Poly grow bags (pack of 5)', price: 450, icon: 'bag' },
-    { sku: 'bucket-1', name: 'Grow bucket (5–10L, pre-drilled)', price: 950, icon: 'bucket' },
-    { sku: 'container-1', name: 'Rigid grow container', price: 1650, icon: 'container' },
-    { sku: 'spawn-1', name: 'Oyster mushroom spawn (1kg)', price: 550, icon: 'spawn' },
+    { sku: 'bucket-1', name: 'Grow bucket (5–10L, pre-drilled)', price: 950, img: 'img/product-bucket.jpg' },
+    { sku: 'container-1', name: 'Rigid grow container', price: 1650, img: 'img/product-container.jpg' },
+    { sku: 'humidity-1', name: 'Humidity controller kit (fan + sensor)', price: 3200, img: 'img/product-humiditycontroller.jpg' },
+    { sku: 'tent-1', name: '3-tier grow tent with fan kit', price: 8900, img: 'img/product-tent.jpg' },
+    { sku: 'kit-oyster', name: 'Oyster mushroom grow kit', price: 1200, img: 'img/product-growkit-oyster.jpg' },
+    { sku: 'kit-king', name: 'King oyster grow kit', price: 1350, img: 'img/product-growkit-king.jpg' },
+    { sku: 'chamber-1', name: 'Fruiting chamber kit (humidifier, pump, controller)', price: 12500, img: 'img/product-chamberkit.jpg' },
   ];
 
   const ICONS = {
     bag: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M18 20 L42 20 L46 52 L14 52 Z" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="M23 20 C23 12 37 12 37 20" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>',
-    bucket: '<svg viewBox="0 0 60 60" width="72" height="72"><path d="M16 22 L44 22 L40 50 L20 50 Z" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="M20 22 C20 14 40 14 40 22" fill="none" stroke="var(--ink)" stroke-width="1.6"/><line x1="14" y1="22" x2="46" y2="22" stroke="var(--ink)" stroke-width="1.6"/></svg>',
-    container: '<svg viewBox="0 0 60 60" width="72" height="72"><rect x="14" y="20" width="32" height="30" fill="none" stroke="var(--ink)" stroke-width="1.6"/><rect x="18" y="14" width="24" height="8" fill="none" stroke="var(--ink)" stroke-width="1.6"/></svg>',
-    spawn: '<svg viewBox="0 0 60 60" width="72" height="72"><ellipse cx="30" cy="24" rx="15" ry="9" fill="none" stroke="var(--ink)" stroke-width="1.6"/><line x1="30" y1="32" x2="30" y2="46" stroke="var(--ink)" stroke-width="1.6"/><line x1="22" y1="46" x2="38" y2="46" stroke="var(--ink)" stroke-width="1.6"/></svg>',
   };
 
   function renderProducts() {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = PRODUCTS.map(p => `
       <div class="product-card">
-        <div class="product-media">${ICONS[p.icon]}</div>
+        <div class="product-media">${p.img ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">` : ICONS[p.icon]}</div>
         <div class="product-body">
           <h3 style="margin-bottom:2px;">${p.name}</h3>
           <div class="product-price">Rs ${p.price.toLocaleString()}</div>

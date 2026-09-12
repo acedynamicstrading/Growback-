@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grow Guide — GrowBack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,340;0,460;0,560;1,460&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .timeline { border-top: 1px solid var(--line); margin-top: 8px; }
+  .timeline-row {
+    display: grid; grid-template-columns: 200px 1fr; gap: 22px;
+    padding: 20px 0; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 700px) { .timeline-row { grid-template-columns: 1fr; gap: 6px; } }
+  .timeline-when { color: var(--ink-soft); font-size: 0.86rem; }
+  .timeline-phase { font-family: var(--font-display); color: var(--brand); font-size: 1.15rem; margin-bottom: 4px; }
+  .timeline-days { font-size: 0.82rem; color: var(--tan); }
+  .issue-card h4 { color: var(--ink); margin-bottom: 8px; }
+  .issue-card .cause { color: var(--ink-soft); font-size: 0.88rem; margin-bottom: 10px; }
+  .issue-card .fix { font-size: 0.92rem; }
+  .issue-card .fix::before { content: "Fix — "; color: var(--brand); font-family: var(--font-display); font-style: italic; }
+  #planOutput { display: none; margin-top: 48px; }
+  .season-banner {
+    border: 1px solid var(--line-dark); background: var(--paper-card);
+    padding: 18px 22px; margin-bottom: 32px; display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-nav">
+    <div class="brand-lockup">
+      <a href="index.html" class="wordmark">Grow<span>Back</span></a>
+      <span class="divider"></span>
+      <img src="img/avero-logo.png" alt="Avero">
+    </div>
+    <button class="nav-toggle">Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Mission</a></li>
+      <li><a href="program.html">Program</a></li>
+      <li><a href="grow-guide.html" class="active">Grow Guide</a></li>
+      <li><a href="portal.html">Grower Portal</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="partners.html">Partners</a></li>
+    </ul>
+    <div id="google_translate_element" class="gtranslate"></div>
+    <a href="portal.html#signup" class="nav-cta">Join as a grower</a>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <div class="eyebrow">Plan your cycle</div>
+    <h1 class="max-measure">Tell us your setup. We'll lay out the whole grow.</h1>
+    <p class="lede max-measure">Pick your mushroom, your grow media, how many units, your region, and when you're starting — this builds a week-by-week timeline with watering, fresh-air, and nutrient guidance for every stage, plus what to do if something goes wrong.</p>
+    <p style="color:var(--tan);font-size:0.86rem;max-width:var(--measure);">Oyster mushroom's spawn-run time, temperature/humidity targets, and yield are taken directly from the <a href="https://doa.gov.lk/hordi-crop-mushroom/" target="_blank" rel="noopener" style="color:var(--tan);text-decoration:underline;">Department of Agriculture Sri Lanka's published cultivation table</a>. King oyster isn't one of DOA's released varieties, so those figures come from general Pleurotus eryngii literature instead and carry more uncertainty — flagged as such below. Seasonal misting guidance follows DOA's Wet Zone / Dry Zone rainfall classification, since the west and east of the island are wet and dry at opposite times of year. Your own strain, substrate batch, and microclimate will still shift the exact numbers — treat this as a solid, sourced starting plan, not a guarantee.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="card" style="max-width:640px;">
+      <div class="field-row">
+        <div class="field">
+          <label for="species">Mushroom</label>
+          <select id="species">
+            <option value="oyster">Oyster mushroom</option>
+            <option value="king">King oyster mushroom</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="media">Grow media / setup</label>
+          <select id="media">
+            <option value="bag">Poly grow bag</option>
+            <option value="bucket">Grow bucket (5–10L)</option>
+            <option value="container">Rigid grow container</option>
+            <option value="tent">3-tier grow tent</option>
+            <option value="chamber">Fruiting chamber kit</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="qty">Quantity</label>
+          <input type="number" id="qty" min="1" value="1">
+        </div>
+        <div class="field">
+          <label for="startMonth">Starting month</label>
+          <select id="startMonth"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="region">Your region</label>
+        <select id="region">
+          <option value="wet">Wet Zone — Southwest, West coast, Hill Country (Colombo, Galle, Kandy)</option>
+          <option value="dry">Dry Zone — North &amp; East (Jaffna, Trincomalee, Batticaloa, Anuradhapura)</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-block" id="genPlanBtn">Generate my grow plan</button>
+    </div>
+
+    <div id="planOutput">
+      <div class="season-banner" id="seasonBanner"></div>
+
+      <div class="section-head" style="margin-bottom:24px;">
+        <div class="eyebrow">Your timeline</div>
+        <h2>From spawn to last flush</h2>
+      </div>
+      <div class="timeline" id="timeline"></div>
+
+      <div class="card-grid" style="margin-top:40px;">
+        <div class="card">
+          <h3 style="margin-bottom:10px;">Watering &amp; fresh air</h3>
+          <p id="wateringNote" style="color:var(--ink-soft);"></p>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:10px;">Nutrient top-up between flushes</h3>
+          <p id="nutrientNote" style="color:var(--ink-soft);"></p>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:10px;">Rough yield estimate</h3>
+          <p id="yieldNote" style="color:var(--ink-soft);"></p>
+          <p style="font-size:0.82rem;color:var(--tan);margin-top:10px;">Wide range on purpose — strain, substrate quality, and how closely you follow the schedule all move this a lot.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-alt);">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">When things go wrong</div>
+      <h2>Common complications, and how to fix them</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card issue-card">
+        <h4>No pins after colonization finishes</h4>
+        <p class="cause">Usually low fresh-air exchange or humidity too low to trigger fruiting.</p>
+        <p class="fix">Open vents or slit the bag, mist lightly twice a day, and give it a few degrees of temperature drop if you can — that swing is often the actual trigger.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Green or black patches on the substrate</h4>
+        <p class="cause">Mould contamination — DOA identifies this as <em>Trichoderma</em> (green) or <em>Aspergillus niger</em> (black), usually from unclean handling or under-sterilised substrate.</p>
+        <p class="fix">Isolate that unit away from the others immediately and discard it — it's not salvageable. DOA's prevention checklist for next time: standard sawdust/rice bran/cotton waste substrate, proper bag sterilisation, disease-free spawn, sterile inoculation conditions, and steady temperature/humidity through the run.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Wet, slimy substrate with a sour smell</h4>
+        <p class="cause">Bacterial infection, usually from substrate that was too saturated going in.</p>
+        <p class="fix">The Department of Agriculture's own remedy: rinse with chlorinated water (about 10g of freely-available chlorine per litre of water) every 3–5 days. Cut away small isolated patches; discard the unit if it's spread through, and drain substrate longer before bagging next time.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Long thin stems, tiny caps ("leggy" growth)</h4>
+        <p class="cause">Too little fresh air exchange — CO₂ has built up around the fruiting bodies.</p>
+        <p class="fix">Increase ventilation — open flaps or vents longer and more often, or add a small fan for gentle air movement nearby.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Pins form, then shrivel and stop</h4>
+        <p class="cause">Humidity dropped after pinning, or a direct draft dried them out before they could establish.</p>
+        <p class="fix">Mist more consistently through this stage and keep any fan or vent pointed away from directly hitting the young pins.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Mushrooms turning yellow</h4>
+        <p class="cause">Usually overwatering combined with stale air, sometimes just natural ageing past peak harvest.</p>
+        <p class="fix">Cut back misting, improve airflow, and harvest promptly once caps flatten rather than waiting.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Small flies or mites around the setup</h4>
+        <p class="cause">Mushroom flies (Bradysia, Cecid, Phorid, Sciarid) and mites are drawn to overripe substrate or spilled organic matter — the Department of Agriculture names these as the main oyster mushroom pests in Sri Lanka.</p>
+        <p class="fix">DOA's own controls: build or line your cropping area with insect-proof net, keep it scrupulously clean, and spray neem or garlic extract. For mites specifically, a sulphur-based insecticide is their recommendation. Remove spent substrate promptly either way.</p>
+      </div>
+      <div class="card issue-card">
+        <h4>Colonization is taking much longer than expected</h4>
+        <p class="cause">Usually too cold, or substrate moisture was off going in.</p>
+        <p class="fix">Move the unit somewhere steadier around 24–27°C. If it's been more than twice the expected window with no visible mycelium spread, check for contamination instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>GrowBack</h4>
+        <img src="img/avero-logo.png" alt="Avero" style="height:22px;width:auto;margin-bottom:12px;">
+        <p style="color:#B9AD91;font-size:.9rem;max-width:32ch;">A community mushroom cultivation program: free spawn, guaranteed buyback, and a route to local retail shelves.</p>
+      </div>
+      <div><h4>Program</h4><ul><li><a href="program.html">How it works</a></li><li><a href="grow-guide.html">Grow guide</a></li><li><a href="portal.html">Grower portal</a></li><li><a href="about.html">Mission &amp; vision</a></li><li><a href="admin.html">Staff admin</a></li></ul></div>
+      <div><h4>Trade</h4><ul><li><a href="shop.html">Shop grow media</a></li><li><a href="partners.html">Retail &amp; CSR partners</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>Avero (Pvt) Ltd</li><li>Elmo +94 77 362 2211</li><li>Rukshan +94 71 769 8609</li><li>averoexport@gmail.com</li><li>averocontactsl@gmail.com</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GrowBack — an Avero community initiative.</span>
+      <span>General cultivation guidance — actual timing varies with your strain, substrate, and microclimate.</span>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'si,ta,en,hi,ar,zh-CN,fr,de,es,ja,ko,ru,pt,it,nl,th,vi,ur,bn,ms,tl,pl,tr,fa,he,el,sv,uk,ro,id',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="js/app.js"></script>
+<script>
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  // Sri Lanka's Department of Agriculture splits the island into Wet Zone,
+  // Intermediate Zone, and Dry Zone by rainfall — not a single national
+  // monsoon timeline. The Yala (southwest) monsoon (~May–Sep) soaks the
+  // Wet Zone while the Dry Zone is in ITS driest stretch at the same time;
+  // the Maha (northeast) monsoon (~Oct–Jan/Feb) does the reverse. This
+  // matters for misting more than watering the ground, since it's ambient
+  // humidity that changes how often a bag or tent needs misting.
+  const SEASONS = {
+    wet: [ // Southwest, West coast, Hill Country — rain year-round, no sharp dry spell, driest Jan–Mar
+      { label: 'Cooler, drier spell', desc: 'still humid, least rain of the year here', mist: '2×/day' },       // Jan
+      { label: 'Driest stretch', desc: 'lowest humidity of the year for this zone', mist: '2–3×/day' },          // Feb
+      { label: 'Inter-monsoon building', desc: 'warm, scattered showers', mist: '2–3×/day' },                    // Mar
+      { label: 'Inter-monsoon', desc: 'hot, scattered storms', mist: '2–3×/day' },                                // Apr
+      { label: 'Yala monsoon onset', desc: 'southwest rains arrive, humid', mist: '1–2×/day' },                  // May
+      { label: 'Yala monsoon', desc: 'wet and humid', mist: '1–2×/day' },                                        // Jun
+      { label: 'Yala monsoon', desc: 'wet and humid', mist: '1–2×/day' },                                        // Jul
+      { label: 'Yala monsoon tail', desc: 'still humid', mist: '1–2×/day' },                                     // Aug
+      { label: 'Yala monsoon tail', desc: 'humid, tapering', mist: '1–2×/day' },                                 // Sep
+      { label: 'Inter-monsoon', desc: 'thundery, humid', mist: '2×/day' },                                       // Oct
+      { label: 'Maha monsoon reaches this zone lightly', desc: 'cooler, some rain', mist: '1–2×/day' },          // Nov
+      { label: 'Cooler, drier', desc: 'Maha mainly feeds the other coast', mist: '2×/day' },                     // Dec
+    ],
+    dry: [ // North & East — distinct dry season May–Sep (opposite of the west coast), main rains Oct–Jan
+      { label: 'Maha monsoon tapering', desc: 'still fairly wet', mist: '1–2×/day' },                            // Jan
+      { label: 'Drying out', desc: 'rain easing off', mist: '2×/day' },                                          // Feb
+      { label: 'Dry season building', desc: 'hot, little rain', mist: '3×/day' },                                // Mar
+      { label: 'Dry season', desc: 'hot and dry', mist: '3–4×/day, add shade' },                                 // Apr
+      { label: 'Dry season', desc: 'hot and dry — this zone\u2019s driest stretch', mist: '3–4×/day, add shade' }, // May
+      { label: 'Peak dry season', desc: 'hot and dry', mist: '3–4×/day, add shade' },                            // Jun
+      { label: 'Dry season', desc: 'hot and dry', mist: '3–4×/day, add shade' },                                 // Jul
+      { label: 'Dry season', desc: 'hot and dry', mist: '3–4×/day, add shade' },                                 // Aug
+      { label: 'Dry season easing', desc: 'still hot', mist: '3×/day' },                                        // Sep
+      { label: 'Maha monsoon onset', desc: 'rain returns', mist: '2×/day' },                                     // Oct
+      { label: 'Maha monsoon', desc: 'main rainy season here', mist: '1–2×/day' },                               // Nov
+      { label: 'Maha monsoon', desc: 'wet', mist: '1–2×/day' },                                                  // Dec
+    ],
+  };
+
+  // Colonization time and per-bag yield are anchored to the Department of
+  // Agriculture Sri Lanka's own published cultivation table for oyster
+  // mushroom (doa.gov.lk/hordi-crop-mushroom): 20–30 day spawn run at
+  // 24–27°C, 300–400g fresh yield per bag on their standard sawdust
+  // recipe. Bucket/container/tent/chamber figures scale from that one
+  // DOA-confirmed anchor by substrate mass — DOA doesn't publish per-format
+  // numbers, so those ratios are this tool's own reasonable estimate, not
+  // government data.
+  const MEDIA = {
+    bag:       { label: 'poly grow bag', colonizeDays: 24, unitsPerLot: 1, yieldRange: [0.3, 0.4] },
+    bucket:    { label: 'grow bucket', colonizeDays: 28, unitsPerLot: 1, yieldRange: [1.2, 1.6] },
+    container: { label: 'rigid grow container', colonizeDays: 26, unitsPerLot: 1, yieldRange: [0.6, 0.8] },
+    tent:      { label: '3-tier grow tent (≈9 bags/tent)', colonizeDays: 23, unitsPerLot: 9, yieldRange: [2.7, 3.6] },
+    chamber:   { label: 'fruiting chamber kit (≈6 bags/kit)', colonizeDays: 22, unitsPerLot: 6, yieldRange: [1.8, 2.4] },
+  };
+
+  // Oyster: colonizes in 14–21 days, pins within a week of fresh air, 3–4
+  // flushes about a week apart. King oyster colonizes markedly slower
+  // (commonly cited at 3–4+ weeks vs 1–2 for common oyster), needs a longer
+  // post-flush soak (12–24h vs a few hours), gives fewer, larger flushes,
+  // and has a lower biological efficiency — so its total yield per unit is
+  // scaled down relative to oyster, not just slower.
+  // Temperature/RH targets for standard oyster mushroom are the DOA's own
+  // published figures (American/Pink oyster row of their table): spawn run
+  // 24–27°C at 90–100% RH in the dark; primordia (pinning) needs a real
+  // temperature DROP to 17–19°C at ~95% RH; fruiting settles at 19–20°C,
+  // 85–92% RH. That drop from spawn-run to pinning temperature is bigger
+  // than generic grow guides suggest, and it's the main reason lowland,
+  // especially Dry Zone, growers struggle to get pins even when misting
+  // correctly — it's a cooling problem, not just a humidity one.
+  // King oyster figures are NOT from DOA — Pleurotus eryngii isn't one of
+  // their three released oyster varieties (American oyster, Abalone, Pink
+  // oyster), so these are drawn from general Pleurotus eryngii cultivation
+  // literature instead, and should be treated as less certain.
+  const SPECIES = {
+    oyster: { label: 'oyster mushroom', colonizeAdj: 0, pinToHarvest: 6, flushes: 4, restBetween: 10, yieldMultiplier: 1.0, soakHours: '2–4 hours', spawnTemp: '24–27°C', pinTemp: '17–19°C', fruitTemp: '19–20°C', rhPin: '~95%', rhFruit: '85–92%', bioNote: 'oyster mushrooms flush readily — expect 3–4 harvests per unit', sourceNote: "Department of Agriculture Sri Lanka" },
+    king:   { label: 'king oyster mushroom', colonizeAdj: 8, pinToHarvest: 11, flushes: 2, restBetween: 14, yieldMultiplier: 0.55, soakHours: '12–24 hours', spawnTemp: '22–25°C', pinTemp: '15–18°C', fruitTemp: '18–22°C', rhPin: '90–95%', rhFruit: '85–90%', bioNote: 'king oyster puts its energy into fewer, larger, thicker-stemmed flushes, so total yield per unit runs lower than oyster', sourceNote: "general Pleurotus eryngii literature — not a DOA-released variety, so treat as less certain" },
+  };
+
+  function fillMonths() {
+    const sel = document.getElementById('startMonth');
+    const now = new Date();
+    sel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
+    sel.value = now.getMonth();
+  }
+  fillMonths();
+
+  function startDateFor(monthIndex) {
+    const now = new Date();
+    let year = now.getFullYear();
+    if (monthIndex < now.getMonth()) year += 1;
+    return new Date(year, monthIndex, 1);
+  }
+
+  function fmt(d) {
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  function addDays(d, n) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
+  }
+
+  function generatePlan() {
+    const speciesKey = document.getElementById('species').value;
+    const mediaKey = document.getElementById('media').value;
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value, 10) || 1);
+    const monthIndex = parseInt(document.getElementById('startMonth').value, 10);
+    const regionKey = document.getElementById('region').value;
+
+    const species = SPECIES[speciesKey];
+    const media = MEDIA[mediaKey];
+    const season = SEASONS[regionKey][monthIndex];
+    const regionLabel = regionKey === 'wet' ? 'Wet Zone' : 'Dry Zone';
+    const start = startDateFor(monthIndex);
+
+    // Season banner
+    document.getElementById('seasonBanner').innerHTML = `
+      <span class="badge free">${MONTHS[monthIndex]} — ${regionLabel}</span>
+      <span style="font-family:var(--font-display);font-size:1.2rem;color:var(--ink);">${season.label}</span>
+      <span style="color:var(--ink-soft);">— ${season.desc}. Starting ${qty} × ${media.label} of ${species.label}.</span>
+    `;
+    if (speciesKey === 'king') {
+      document.getElementById('seasonBanner').innerHTML += `
+        <div style="width:100%;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-dark);font-size:0.85rem;color:var(--rust);">
+          King oyster isn't a Department of Agriculture-released variety in Sri Lanka — these figures come from general Pleurotus eryngii literature, not local government data. Treat the timings below as a looser estimate than the oyster mushroom plan.
+        </div>`;
+    }
+
+    // Timeline
+    let cursor = start;
+    const colonizeDays = media.colonizeDays + species.colonizeAdj;
+    const rows = [];
+
+    rows.push({
+      phase: 'Colonization (spawn run)',
+      when: `${fmt(cursor)} – ${fmt(addDays(cursor, colonizeDays))}`,
+      days: `Day 1–${colonizeDays}`,
+      body: `Keep it sealed, dark, and steady around ${species.spawnTemp}, ~90–100% RH (a sealed bag/block holds this on its own — no misting needed). Check weekly for green or black patches (see troubleshooting below) rather than opening it up repeatedly.`
+    });
+    cursor = addDays(cursor, colonizeDays);
+
+    rows.push({
+      phase: 'Pinning (temperature-drop trigger)',
+      when: `${fmt(cursor)} – ${fmt(addDays(cursor, 3))}`,
+      days: `Day ${colonizeDays + 1}–${colonizeDays + 3}`,
+      body: `Once the substrate is fully white with mycelium, open vents or cut slits and move it somewhere noticeably cooler — around ${species.pinTemp} at ${species.rhPin} RH with some indirect light. That temperature drop is the real trigger, more than misting; in a hot lowland spot, shade, cross-ventilation, or evaporative cooling (a fan over a wet sack or water tray) matters as much as humidity. In high-temperature areas, only half-open the bag rather than fully opening it.`
+    });
+    cursor = addDays(cursor, 3);
+
+    for (let i = 1; i <= species.flushes; i++) {
+      rows.push({
+        phase: `Flush ${i} — harvest window`,
+        when: `${fmt(cursor)} – ${fmt(addDays(cursor, species.pinToHarvest))}`,
+        days: `~${species.pinToHarvest} days`,
+        body: `Hold around ${species.fruitTemp} at ${species.rhFruit} RH where you can, and mist per the season guidance on the right. Harvest once caps flatten and just before edges curl upward — twist gently at the base rather than cutting, to keep the stub from rotting and fouling the next flush.`
+      });
+      cursor = addDays(cursor, species.pinToHarvest);
+
+      if (i < species.flushes) {
+        rows.push({
+          phase: `Rest before flush ${i + 1}`,
+          when: `${fmt(cursor)} – ${fmt(addDays(cursor, species.restBetween))}`,
+          days: `~${species.restBetween} days`,
+          body: `Ease off misting and let the surface dry slightly. Optional: a ${species.soakHours} water soak (see the nutrient card below) partway through this rest can lift the next flush.`
+        });
+        cursor = addDays(cursor, species.restBetween);
+      }
+    }
+
+    document.getElementById('timeline').innerHTML = rows.map(r => `
+      <div class="timeline-row">
+        <div>
+          <div class="timeline-when">${r.when}</div>
+          <div class="timeline-days">${r.days}</div>
+        </div>
+        <div>
+          <div class="timeline-phase">${r.phase}</div>
+          <div style="color:var(--ink-soft);">${r.body}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Watering note
+    let wateringText =
+      `During ${season.label.toLowerCase()} in the ${regionLabel} (${season.desc}), mist ${season.mist} once you're past colonization. ` +
+      `In any season, mist in the morning so surfaces have time to dry before nightfall — that alone heads off most bacterial issues.`;
+    if (regionKey === 'dry' && speciesKey === 'oyster') {
+      wateringText += ` One more thing worth knowing: DOA's standard oyster variety wants ${species.fruitTemp} to fruit well, which is genuinely hard to hit in Dry Zone heat without real cooling. Their Abalone and Pink oyster varieties fruit at a warmer 21–27°C and may suit your climate better — worth asking your local Agriculture Office which spawn they'd recommend for your area.`;
+    }
+    document.getElementById('wateringNote').textContent = wateringText;
+
+    // Nutrient note
+    document.getElementById('nutrientNote').textContent =
+      `${species.label[0].toUpperCase()}${species.label.slice(1)} substrate carries its own nutrition — no fertilizer needed. Between flushes you can optionally submerge the bag or block in cool water for ${species.soakHours} (a pinch of rice bran or a little gypsum in the soak water helps) to rehydrate it and slightly lift the next flush. Skip this before the first flush. ${species.bioNote}.`;
+
+    // Yield note
+    const [lo, hi] = media.yieldRange;
+    const y = species.yieldMultiplier;
+    document.getElementById('yieldNote').textContent =
+      `Roughly ${(lo * qty * y).toFixed(1)}–${(hi * qty * y).toFixed(1)} kg fresh mushrooms total across all flushes, for ${qty} × ${media.label}.`;
+
+    const out = document.getElementById('planOutput');
+    out.style.display = 'block';
+    if (out.scrollIntoView) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.getElementById('genPlanBtn').addEventListener('click', generatePlan);
+</script>
+</body>
+</html>
